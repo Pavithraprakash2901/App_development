@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Converter</title>
+</head>
+<body>
+  <h2><i><strong>Input-Box:</strong></i></h2>
+  <br>
+  <textarea id="inputHtml" rows="10" cols="50" placeholder="Enter HTML code here...."></textarea>
+  <br>
+  <button onclick="convertHTML()">ClickHere</button>
+  <h2><i><strong>Output-field:</strong></i></h2>
+  <div id="outputDom"></div>
+  
+  
+  <script>
+    function convertHTML() { 
+      const inputHtml = document.getElementById('inputHtml').value;
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(inputHtml, 'text/html');
+      console.log(doc.documentElement); // to check the obtained value
+      const outputDom = document.getElementById('outputDom');
+      outputDom.innerHTML = '';  // Clear previous output, if any
+      outputDom.appendChild(doc.documentElement);
+
+      const domcount=document.getElementById('inputHtml').value;
+      const tagCount = countTags(domcount);
+      console.log(tagCount);
+      function countTags(domcount) {
+      const parser = new DOMParser();
+      const dom = parser.parseFromString(domcount, "text/html");
+
+  
+      function traverseAndCount(node, countObj) {
+      if (node.nodeType === Node.ELEMENT_NODE ) {
+       const tagName = node.tagName.toLowerCase();
+      countObj[tagName] = (countObj[tagName] || 0) + 1;
+      }
+        node.childNodes.forEach((child) => traverseAndCount(child, countObj));
+       }
+      const tagCount = {};
+      traverseAndCount(dom.documentElement, tagCount);
+
+  return tagCount;
+  //console.log(tagCount); }
+ } 
+ 
+     
+  </script>
+</body>
+</html>
